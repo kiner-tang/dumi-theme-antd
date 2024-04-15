@@ -1,8 +1,24 @@
 import { useRouteMeta, useIntl, FormattedMessage } from 'dumi';
 import { EditOutlined } from '@ant-design/icons';
+import { css } from '@emotion/react';
 import useAdditionalThemeConfig from '../hooks/useAdditionalThemeConfig';
+import useSiteToken from '../hooks/useSiteToken';
+
+const useStyle = () => {
+  const { token } = useSiteToken();
+
+  const { marginXXS } = token;
+
+  return {
+    editLink: css`
+      display: flex;
+      gap: ${marginXXS}px;
+    `
+  };
+};
 
 const EditLink = () => {
+  const styles = useStyle();
   const { frontmatter } = useRouteMeta();
   const { editLink } = useAdditionalThemeConfig();
   const intl = useIntl();
@@ -18,6 +34,7 @@ const EditLink = () => {
             { filename: frontmatter.filename }
           )}`}
           rel="noreferrer"
+          css={styles.editLink}
         >
           <EditOutlined />
           <FormattedMessage id="app.footer.actions.edit" />
